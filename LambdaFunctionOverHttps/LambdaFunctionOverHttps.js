@@ -13,6 +13,9 @@ var dynamo = new doc.DynamoDB();
 exports.handler = function(event, context, callback) {
     //console.log('Received event:', JSON.stringify(event, null, 2));
 
+    //add timestamp to the order
+    event.payload.Item.CreatedDate = '...abc...';
+    
     var operation = event.operation;
 
     if (event.tableName) {
