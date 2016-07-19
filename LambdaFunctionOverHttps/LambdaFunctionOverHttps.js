@@ -13,8 +13,13 @@ var dynamo = new doc.DynamoDB();
 exports.handler = function(event, context, callback) {
     //console.log('Received event:', JSON.stringify(event, null, 2));
 
-    //add timestamp to the order
-    event.payload.Item.CreatedDate = '...abc...';
+    //add timestamp to the order and an OrderID
+    var d = new Date();
+
+    var OrderID = "Order-" + d.getDate() + d.getMonth() + d.getFullYear() + d.getHours() + d.getMinutes() + d.getSeconds();
+
+    event.payload.Item.CreatedDate = d;
+    event.payload.Item.OrderID = OrderID;
     
     var operation = event.operation;
 

@@ -62,3 +62,44 @@
     });
 
 })(jQuery); // End of use strict
+
+
+//Post to API
+var URL = 'https://w0qtv030zb.execute-api.eu-west-1.amazonaws.com/prod/DynamoDBManager'
+
+$('#order-form').submit(function (event) {
+  event.preventDefault()
+
+  var data = {
+    operation: "create",
+    tableName: "Orders",
+      payload: {
+        Item: {
+          OrderID: "Order-" + Date(),
+          Navn: $('#inputName').val(),
+          Email: $('#inputEmail').val(),
+          Postnummer: $('#inputZip').val()
+        }
+      },
+  }
+
+  var JsonData = JSON.stringify(data);
+
+  $.ajax({
+    type: 'POST',
+    url: URL,
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JsonData,
+    success: function () {
+      successmessage = 'Data was succesfully captured';
+      $("label#successmessage").text(successmessage);
+      // clear form and show a success message
+    },
+    error: function () {
+      errormessage = 'Error';
+      $("label#errormessage").text(errormessage);
+      // show an error message
+    }
+  })
+})
